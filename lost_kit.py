@@ -63,7 +63,8 @@ def make_card(spec, out_dir):
     if "title" in spec:
         d.text((W // 2, H // 2 - 30), spec["title"], font=font(BOLD, 190), fill=CREAM, anchor="mm")
         if spec.get("subtitle"):
-            d.text((W // 2, H // 2 + 120), spec["subtitle"], font=font(ITALIC, 40), fill=CREAM, anchor="mm")
+            d.text((W // 2, H // 2 + 120), spec["subtitle"], font=font(ITALIC, 40), fill=CREAM,
+                   anchor="mm")
     elif "big" in spec:
         d.text((W // 2, H // 2), spec["big"], font=font(ITALIC, 150), fill=CREAM, anchor="mm")
     else:
@@ -99,7 +100,8 @@ def run(args):
 
 def cmd_stitch(manifest_file, out_file):
     m = json.load(open(manifest_file, encoding="utf-8"))
-    vf = "scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,fps=24,format=yuv420p,setsar=1" % (W, H, W, H)
+    vf = ("scale=%d:%d:force_original_aspect_ratio=decrease,pad=%d:%d:(ow-iw)/2:(oh-ih)/2,"
+          "fps=24,format=yuv420p,setsar=1") % (W, H, W, H)
     tmp = tempfile.mkdtemp(prefix="lostkit_")
     parts = []
     for i, it in enumerate(m["items"]):
@@ -125,12 +127,14 @@ def cmd_stitch(manifest_file, out_file):
     dur = float(subprocess.check_output(["ffprobe", "-v", "error", "-show_entries", "format=duration",
                                          "-of", "csv=p=0", pic]).decode().strip())
     if m.get("music"):
-        af = "[1:a]atrim=0:%.2f,loudnorm=I=-16:TP=-1.5,afade=t=in:st=0:d=0.6,afade=t=out:st=%.2f:d=2[a]" % (dur, max(dur - 2, 0))
+        af = ("[1:a]atrim=0:%.2f,loudnorm=I=-16:TP=-1.5,afade=t=in:st=0:d=0.6,"
+              "afade=t=out:st=%.2f:d=2[a]") % (dur, max(dur - 2, 0))
         run(["ffmpeg", "-y", "-v", "error", "-i", pic, "-stream_loop", "-1", "-i", m["music"],
              "-filter_complex", af, "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac",
              "-b:a", "192k", "-t", "%.2f" % dur, "-movflags", "+faststart", out_file])
     else:
-        run(["ffmpeg", "-y", "-v", "error", "-i", pic, "-c", "copy", "-movflags", "+faststart", out_file])
+        run(["ffmpeg", "-y", "-v", "error", "-i", pic, "-c", "copy", "-movflags", "+faststart",
+             out_file])
     print("film: %s (%.1f seconds)" % (out_file, dur))
 
 
