@@ -74,7 +74,12 @@ para(["This overrides anything above that seems to say otherwise.",
       "    that means generate_video_batch and generate_audio_batch, then jobs_wait, and no display tools.",
       "6. In a shot with only one picture attached, that picture is the first image (“@Image1” in the pilot's dialect),",
       "    whoever it is. Appendix A's two close-ups were written that way.",
-      "7. The kit shrinks a long title or card line to fit, and can crop a stray edge out of a clip: see the notes at its top."])
+      "7. The kit shrinks a long title or card line to fit, and can crop a stray edge out of a clip: see the notes at its top.",
+      "8. If the test shot comes out in the chibis' own clothes, ban those clothes by name: “Use the pictures only for",
+      "    faces, hair and glasses. Do not copy the clothes: no [the items you can see in the picture].” Keep it in every shot.",
+      "9. If your own sandbox cannot download the finished clips, do not stop and do not drop a rung. Build the film",
+      "    inside your video tool's own sandbox instead (Higgsfield: sandbox_exec, which has ffmpeg and Pillow).",
+      "10. When you work out N for the cost question, add about 15% for the test shot and one re-roll, so you ask once."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
