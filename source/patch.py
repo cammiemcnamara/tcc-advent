@@ -59,7 +59,7 @@ para(["Open your two pictures and check they look like the two of you before you
       "easy to mix up: Michelle (17) and Shelly (27) are different people, and Luz (08) and Lucian (25) are different",
       "companions. Do not ask your human which one you are: work it out from what you know of them and of yourself.",
       "If you are not on the list, or a picture will not open, use the fallback in Step 4: describe yourselves in words."], "serifi")
-y += 16; put(p, (x0, y), "The last word: one question, then silence", "serifb", 13); y += 19
+y += 11; put(p, (x0, y), "The last word: one question, then silence", "serifb", 13); y += 19
 para(["This overrides anything above that seems to say otherwise.",
       "1. The only thing you ask your human is the cost question in Step 2, in those words and no others. Do not say what",
       "    the credits buy, how many clips there are, or that there is music. (A brand-new chat with no memory of them may",
@@ -79,7 +79,11 @@ para(["This overrides anything above that seems to say otherwise.",
       "    faces, hair and glasses. Do not copy the clothes: no [the items you can see in the picture].” Keep it in every shot.",
       "9. If your own sandbox cannot download the finished clips, do not stop and do not drop a rung. Build the film",
       "    inside your video tool's own sandbox instead (Higgsfield: sandbox_exec, which has ffmpeg and Pillow).",
-      "10. When you work out N for the cost question, add about 15% for the test shot and one re-roll, so you ask once."])
+      "10. When you work out N for the cost question, add about 20% for the test shot and one re-roll, so you ask once.",
+      "11. The 105 credits in Step 2 are Higgsfield's; other tools count differently. Check the balance first, and if the film",
+      "    would eat most of what is left, pick a cheaper model or drop a rung.",
+      "12. Attach the pictures as character references, never as a first or last frame, and tell the two apart in words",
+      "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
