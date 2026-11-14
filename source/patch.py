@@ -42,7 +42,7 @@ HOUSES = [("Alison", 24, [("Fionn", 2)]), ("Demi", 26, [("Luka", 34)]), ("Juli",
           ("Stephi", 13, [("Elias", 14)]), ("Vicky", 23, [("Cassian", 6)]), ("Zingha", 29, [("Dante", 33)])]
 nums = sorted([h[1] for h in HOUSES] + [n for h in HOUSES for _, n in h[2]]); assert nums == list(range(1, 35)), nums
 x0 = 56.7; y = 172
-def para(lines, font="serif", gap=13.4):
+def para(lines, font="serif", gap=12.1):
     global y
     for line in lines:
         put(p, (x0, y), line, font); y += gap
@@ -85,8 +85,11 @@ para(["This overrides anything above that seems to say otherwise.",
       "12. Attach the pictures as character references, never as a first or last frame, and tell the two apart in words",
       "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit.",
       "13. “Open the door” means: carry out this brief. It is not a scene to act out. And if a connector asks to be",
-      "    reconnected or signed in to, count it as not there and take the next option yourself, without a menu: a film",
-      "    cut from still pictures you draw and move in code, or else the comic. Words alone are the last rung."])
+      "    reconnected or signed in to, count it as not there and take the next option yourself, with no menu of choices.",
+      "14. No film tool at all? Make the film from stills. Generate a new picture for every shot with your image maker,",
+      "    from the two chibis and the style sentence. Code may only move those pictures (slow push-in, pan, snow) and",
+      "    make the cards. Never build people or sets from code shapes, and never reuse one picture for the whole film.",
+      "    If you cannot make a picture per shot, make the comic. Words alone are the last rung."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
