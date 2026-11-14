@@ -42,7 +42,7 @@ HOUSES = [("Alison", 24, [("Fionn", 2)]), ("Demi", 26, [("Luka", 34)]), ("Juli",
           ("Stephi", 13, [("Elias", 14)]), ("Vicky", 23, [("Cassian", 6)]), ("Zingha", 29, [("Dante", 33)])]
 nums = sorted([h[1] for h in HOUSES] + [n for h in HOUSES for _, n in h[2]]); assert nums == list(range(1, 35)), nums
 x0 = 56.7; y = 172
-def para(lines, font="serif", gap=12.1):
+def para(lines, font="serif", gap=12.6):
     global y
     for line in lines:
         put(p, (x0, y), line, font); y += gap
@@ -86,10 +86,8 @@ para(["This overrides anything above that seems to say otherwise.",
       "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit.",
       "13. “Open the door” means: carry out this brief. It is not a scene to act out. And if a connector asks to be",
       "    reconnected or signed in to, count it as not there and take the next option yourself, with no menu of choices.",
-      "14. No film tool at all? Make the film from stills. Generate a new picture for every shot with your image maker,",
-      "    from the two chibis and the style sentence. Code may only move those pictures (slow push-in, pan, snow) and",
-      "    make the cards. Never build people or sets from code shapes, and never reuse one picture for the whole film.",
-      "    If you cannot make a picture per shot, make the comic. Words alone are the last rung."])
+      "14. If you are ChatGPT, or you have an image maker but no working film tool, Appendix C is your road: follow it",
+      "    step by step. It makes a real film out of still pictures. Words alone are the last rung."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
@@ -111,6 +109,73 @@ while i < len(code):
     pg.draw_rect(fitz.Rect(x0 - 4, yy - 9, PW - 56.7 + 4, yy + len(chunk)*LEAD - 3), color=None, fill=(0.955, 0.945, 0.925))
     for k, c in enumerate(chunk):
         if c: put(pg, (x0, yy + k*LEAD), c, "mono", SIZE)
+# Appendix C: the ChatGPT road. Appendix D: the cast as embedded pictures.
+import io
+from PIL import Image
+def newpage():
+    pg = d.new_page(width=PW, height=PH)
+    put(pg, (56.7, 811.2), "TCC Advent — LOST — brief for the AI", "sans", 7.5, MUTE)
+    num = str(pg.number + 1); put(pg, (PW - 56.7 - fitz.Font(fontfile=F["sans"]).text_length(num, 7.5), 811.2), num, "sans", 7.5, MUTE)
+    return pg
+C = [("h", "Appendix C. If you are ChatGPT: the film made from stills"),
+     ("i", "For ChatGPT, and for any AI that has an image maker and a code sandbox but no working film tool. It replaces the"),
+     ("i", "film-making steps only. The story rules, the cards, the silence and the hand-over in the main brief all still hold."),
+     ("s", "C1. Which road"),
+     ("b", "If a film app is connected and answers when you call it (Runway, Higgsfield, Kling, PixVerse and the like), use"),
+     ("c", "the main brief with it. It spends your human's credits there, so ask the cost question in Step 2 first."),
+     ("b", "If it asks to be reconnected or signed in to, or you have none, do not offer a menu. Make the film below. It costs"),
+     ("c", "no credits, so there is nothing to ask. Say one line only: “Give me ten minutes, and no peeking till I call you.”"),
+     ("s", "C2. The two of you"),
+     ("b", "Your sandbox has no internet, so the picture addresses in Step 4 will not open in code. The same pictures are"),
+     ("c", "printed in Appendix D, the last page of this file. With your code tool, pull your two out of the PDF and look at them."),
+     ("b", "If your image maker accepts them as reference images, attach both to every picture you generate."),
+     ("b", "If it does not, write one paragraph per puppet describing exactly what you see (hair, eyes, glasses, skin, build,"),
+     ("c", "anything distinctive) and paste both paragraphs, word for word, into every prompt."),
+     ("s", "C3. Seven pictures, one for every shot"),
+     ("b", "Write the story first, to Steps 3, 5 and 6. Then generate one new wide picture for each shot: seven shots, seven"),
+     ("c", "pictures."),
+     ("b", "Every prompt is: the style sentence, your wardrobe paragraph, the pair, then this shot staged as a single film frame"),
+     ("c", "(who stands where, what each is doing, where they look). End with: “No text, no title, no border, no play button.”"),
+     ("b", "Stay in one conversation. From the second picture on, say “the same two puppets, wardrobe and set as the first”."),
+     ("c", "If you can make several matching pictures from one request, do that."),
+     ("b", "For a reaction or a reveal, make two pictures of the same framing, before and after, and cut from one to the other."),
+     ("b", "Look at every picture. If a face has drifted, or words or a button crept in, make that one again."),
+     ("s", "C4. Move them, in code"),
+     ("b", "Turn each picture into a clip of 5 to 6 seconds, 1280 by 720, 24 frames a second. Crop to 16:9 first."),
+     ("b", "Give each a slow camera move: push in from 100% to about 112%, or drift sideways, eased at both ends. Vary the"),
+     ("c", "move between neighbours. For a stop-motion feel, hold every drawn frame twice."),
+     ("b", "Over the top: falling snow (a few hundred soft white dots at two speeds, drifting a little) and a faint vignette."),
+     ("b", "That is all code may draw. Never build trees, doors, stars, props or people from shapes, never paste one picture"),
+     ("c", "into several shots, and never slide a cut-out of the pair around the frame."),
+     ("s", "C5. Cards, join, check"),
+     ("b", "The kit is printed in Appendix B: save it from there. It makes the title cards and joins clips and cards into one"),
+     ("c", "MP4. It needs ffmpeg. If your sandbox has none, make the cards with the kit and join the frames with OpenCV"),
+     ("c", "or imageio instead."),
+     ("b", "No music unless you have a real music tool. A silent film is correct. Do not synthesise a tune."),
+     ("b", "Before you hand over, tile one frame per second into a sheet and look at it: seven different pictures, the same two"),
+     ("c", "puppets throughout, cards readable, 45 to 60 seconds. Then give them the MP4, as in Step 10.")]
+pg = newpage(); yy = 62
+for kind, txt in C:
+    if kind == "h": put(pg, (x0, yy), txt, "serifb", 13); yy += 19
+    elif kind == "i": put(pg, (x0, yy), txt, "serifi"); yy += 13.6
+    elif kind == "s": yy += 9; put(pg, (x0, yy), txt, "serifb", 11.5); yy += 16
+    else:
+        if kind == "b": put(pg, (x0 + 4, yy), "•")
+        put(pg, (x0 + 14, yy), txt); yy += 13.6
+CAST = os.path.join(os.path.dirname(KIT), "cast")
+NAMES = {n: h for h, n, _ in HOUSES}; NAMES.update({n: c for _, _, cs in HOUSES for c, n in cs})
+pg = newpage(); yy = 62
+put(pg, (x0, yy), "Appendix D. The cast, in pictures", "serifb", 13); yy += 18
+for line in ["The same numbered pictures as the cast list, embedded here for any AI whose code cannot reach the internet.",
+             "They are separate images. Sorted top to bottom, then left to right, the first is 01 and the last is 34."]:
+    put(pg, (x0, yy), line); yy += 13.6
+yy += 6; IW, IH, CWD, RH = 66, 88, (PW - 113.4) / 6, 104
+for n in range(1, 35):
+    im = Image.open(os.path.join(CAST, "%02d.png" % n)).convert("RGB").resize((384, 512), Image.LANCZOS)
+    buf = io.BytesIO(); im.save(buf, "JPEG", quality=82)
+    r_, c_ = divmod(n - 1, 6); xx = x0 + c_ * CWD + (CWD - IW) / 2; ty = yy + r_ * RH
+    pg.insert_image(fitz.Rect(xx, ty, xx + IW, ty + IH), stream=buf.getvalue())
+    lab = "%02d %s" % (n, NAMES[n]); put(pg, (xx + IW / 2 - fitz.Font(fontfile=F["serif"]).text_length(lab, 8.5) / 2, ty + IH + 10), lab, "serif", 8.5)
 d.set_metadata({"title": "TCC Advent: LOST", "author": "Kay & Dax"})
 out = os.path.join(HERE, "LOST.pdf") if os.path.basename(HERE) != "source" else os.path.join(HERE, "..", "LOST.pdf")
 d.save(out, garbage=4, deflate=True)
@@ -121,7 +186,7 @@ for i in range(len(d2)):
     mx = max(s["bbox"][2] for b in d2[i].get_text("dict")["blocks"] for l in b.get("lines", []) for s in l["spans"])
     if mx > W - 56.6: print("  page", i+1, "overflows:", round(mx, 1))
 got = []
-for pg in d2[9:]:
+for pg in [d2[n] for n in pages]:
     for ln in pg.get_text().split("\n"):
         got.append(ln)
 txt = "\n".join(got)
