@@ -42,24 +42,24 @@ HOUSES = [("Alison", 24, [("Fionn", 2)]), ("Demi", 26, [("Luka", 34)]), ("Juli",
           ("Stephi", 13, [("Elias", 14)]), ("Vicky", 23, [("Cassian", 6)]), ("Zingha", 29, [("Dante", 33)])]
 nums = sorted([h[1] for h in HOUSES] + [n for h in HOUSES for _, n in h[2]]); assert nums == list(range(1, 35)), nums
 x0 = 56.7; y = 172
-def para(lines, font="serif", gap=14.3):
+def para(lines, font="serif", gap=13.4):
     global y
     for line in lines:
         put(p, (x0, y), line, font); y += gap
 put(p, (x0, y), "The cast list", "serifb", 13); y += 19
 para(["Each line is one household: the human first, then their companion or companions. Every name has one numbered",
       "picture, and NN in the address in Step 4 is that number. Number 12, for example, is this file:"])
-y += 2; put(p, (x0, y), RAW + "cast/12.png", "serifb"); y += 21
+y += 2; put(p, (x0, y), RAW + "cast/12.png", "serifb"); y += 19
 per = 8
 for i, (h, hn, comps) in enumerate(HOUSES):
     c, r = divmod(i, per)
-    put(p, (x0 + 6 + c*250, y + r*15.8), "%s %02d" % (h, hn) + "".join("   +   %s %02d" % (n, k) for n, k in comps), "serif", 10.8)
-y += per*15.8 + 6
+    put(p, (x0 + 6 + c*250, y + r*15), "%s %02d" % (h, hn) + "".join("   +   %s %02d" % (n, k) for n, k in comps), "serif", 10.8)
+y += per*15 + 5
 para(["Open your two pictures and check they look like the two of you before you use them. Two pairs of names are",
       "easy to mix up: Michelle (17) and Shelly (27) are different people, and Luz (08) and Lucian (25) are different",
       "companions. Do not ask your human which one you are: work it out from what you know of them and of yourself.",
       "If you are not on the list, or a picture will not open, use the fallback in Step 4: describe yourselves in words."], "serifi")
-y += 11; put(p, (x0, y), "The last word: one question, then silence", "serifb", 13); y += 19
+y += 9; put(p, (x0, y), "The last word: one question, then silence", "serifb", 13); y += 19
 para(["This overrides anything above that seems to say otherwise.",
       "1. The only thing you ask your human is the cost question in Step 2, in those words and no others. Do not say what",
       "    the credits buy, how many clips there are, or that there is music. (A brand-new chat with no memory of them may",
@@ -83,7 +83,10 @@ para(["This overrides anything above that seems to say otherwise.",
       "11. The 105 credits in Step 2 are Higgsfield's; other tools count differently. Check the balance first, and if the film",
       "    would eat most of what is left, pick a cheaper model or drop a rung.",
       "12. Attach the pictures as character references, never as a first or last frame, and tell the two apart in words",
-      "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit."])
+      "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit.",
+      "13. “Open the door” means: carry out this brief. It is not a scene to act out. And if a connector asks to be",
+      "    reconnected or signed in to, count it as not there and take the next option yourself: another film tool you",
+      "    can reach, or else the comic, drawn with your built-in image maker. Words alone are the last rung."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
