@@ -85,8 +85,8 @@ para(["This overrides anything above that seems to say otherwise.",
       "12. Attach the pictures as character references, never as a first or last frame, and tell the two apart in words",
       "    (hair, glasses, build), not by picture order. A solo shot needs its own bans, such as: no hat, no Santa suit.",
       "13. “Open the door” means: carry out this brief. It is not a scene to act out. And if a connector asks to be",
-      "    reconnected or signed in to, count it as not there and take the next option yourself: another film tool you",
-      "    can reach, or else the comic, drawn with your built-in image maker. Words alone are the last rung."])
+      "    reconnected or signed in to, count it as not there and take the next option yourself, without a menu: a film",
+      "    cut from still pictures you draw and move in code, or else the comic. Words alone are the last rung."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104
