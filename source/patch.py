@@ -68,7 +68,13 @@ para(["This overrides anything above that seems to say otherwise.",
       "    the fallback, or drop a rung, quietly. If the kit address will not open, the whole kit is printed in Appendix B.",
       "3. After they say yes, the next thing they get from you is the finished film, comic or scenario. No progress reports,",
       "    no plot, no prompts, and no list of what went wrong. If they ask afterwards how it went, tell them then.",
-      "4. If you must write something while you work, keep it to one dull line, such as: “Working on it.”"])
+      "4. If you must write something while you work, keep it to one dull line, such as: “Working on it.”",
+      "5. Generate quietly. If your tool has a batch or background way to make clips and music, one that does not open",
+      "    a player in the chat, use it, or your human watches the film arrive shot by shot. With the Higgsfield connector",
+      "    that means generate_video_batch and generate_audio_batch, then jobs_wait, and no display tools.",
+      "6. In a shot with only one picture attached, that picture is the first image (“@Image1” in the pilot's dialect),",
+      "    whoever it is. Appendix A's two close-ups were written that way.",
+      "7. The kit shrinks a long title or card line to fit, and can crop a stray edge out of a clip: see the notes at its top."])
 # Appendix B: the kit, printed in full
 code = open(KIT, encoding="utf-8").read().rstrip("\n").split("\n")
 assert max(len(c) for c in code) <= 104

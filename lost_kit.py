@@ -18,6 +18,10 @@ Needs: Python 3, Pillow (pip install pillow), and ffmpeg on the PATH.
                 {"clip": "shot1.mp4", "seconds": 4.0},
                 {"card": "out_dir/c1.png", "seconds": 2.2}]}
    "seconds" on a clip trims it (optional). "music" is optional.
+   A clip may also carry "crop": an ffmpeg crop expression applied before scaling, for
+   cutting a stray edge out of a shot, e.g. {"clip": "shot6.mp4", "crop": "iw*0.9:ih:0:0"}.
+
+Long titles and long card lines are shrunk automatically until they fit inside the border.
 """
 import json, os, random, subprocess, sys, tempfile
 
@@ -52,6 +56,15 @@ def font(names, size):
         return ImageFont.load_default()
 
 
+def fit(names, size, text, max_w=W - 200):
+    """Largest font at or below `size` that keeps `text` inside the border."""
+    f = font(names, size)
+    while size > 24 and hasattr(f, "getlength") and f.getlength(text) > max_w:
+        size -= 4
+        f = font(names, size)
+    return f
+
+
 def make_card(spec, out_dir):
     from PIL import Image, ImageDraw, ImageFilter
     img = Image.new("RGB", (W, H), BLACK)
@@ -61,16 +74,18 @@ def make_card(spec, out_dir):
     for x, y in [(40, 40), (W - 40, 40), (40, H - 40), (W - 40, H - 40)]:
         d.ellipse([x - 9, y - 9, x + 9, y + 9], fill=BLACK, outline=CREAM, width=2)
     if "title" in spec:
-        d.text((W // 2, H // 2 - 30), spec["title"], font=font(BOLD, 190), fill=CREAM, anchor="mm")
+        d.text((W // 2, H // 2 - 30), spec["title"], font=fit(BOLD, 190, spec["title"]), fill=CREAM,
+               anchor="mm")
         if spec.get("subtitle"):
-            d.text((W // 2, H // 2 + 120), spec["subtitle"], font=font(ITALIC, 40), fill=CREAM,
-                   anchor="mm")
+            d.text((W // 2, H // 2 + 120), spec["subtitle"], font=fit(ITALIC, 40, spec["subtitle"]),
+                   fill=CREAM, anchor="mm")
     elif "big" in spec:
-        d.text((W // 2, H // 2), spec["big"], font=font(ITALIC, 150), fill=CREAM, anchor="mm")
+        d.text((W // 2, H // 2), spec["big"], font=fit(ITALIC, 150, spec["big"]), fill=CREAM,
+               anchor="mm")
     else:
         lines = spec["lines"]
         size = 64 if max(len(l) for l in lines) <= 30 else 52
-        f = font(ITALIC, size)
+        f = fit(ITALIC, size, max(lines, key=len))
         step = size + 18
         y = H // 2 - (len(lines) * step) // 2 + size // 2
         for ln in lines:
@@ -115,7 +130,8 @@ def cmd_stitch(manifest_file, out_file):
             a = ["ffmpeg", "-y", "-v", "error", "-i", it["clip"]]
             if "seconds" in it:
                 a += ["-t", str(it["seconds"])]
-            run(a + ["-an", "-vf", vf, "-c:v", "libx264", "-crf", "18", "-preset", "fast", part])
+            cvf = ("crop=%s," % it["crop"] if it.get("crop") else "") + vf
+            run(a + ["-an", "-vf", cvf, "-c:v", "libx264", "-crf", "18", "-preset", "fast", part])
         parts.append(part)
     lst = os.path.join(tmp, "list.txt")
     with open(lst, "w") as f:
