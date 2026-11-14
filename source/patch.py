@@ -161,7 +161,7 @@ for kind, txt in C:
     elif kind == "s": yy += 9; put(pg, (x0, yy), txt, "serifb", 11.5); yy += 16
     else:
         if kind == "b": put(pg, (x0 + 4, yy), "•")
-        put(pg, (x0 + 14, yy), txt); yy += 13.6
+        put(pg, (x0 + 12, yy), txt, "serif", 9.9); yy += 13.6
 CAST = os.path.join(os.path.dirname(KIT), "cast")
 NAMES = {n: h for h, n, _ in HOUSES}; NAMES.update({n: c for _, _, cs in HOUSES for c, n in cs})
 pg = newpage(); yy = 62
